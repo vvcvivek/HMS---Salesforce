@@ -1,0 +1,55 @@
+<template>
+    <lightning-card title=" Hospital Overview Dashboard" icon-name="standard:account"> 
+        <template if:true={isLoading}> 
+            <lightning-spinner alternative-text="Loading..." size="large"></lightning-spinner> 
+        </template> 
+        <div class="slds-p-around_medium"> 
+            <!-- KPI Row --> 
+            <div class="slds-grid slds-gutters slds-wrap slds-m-bottom_medium"> 
+                <div class="slds-col slds-size_1-of-4"> 
+                    <div class="kpi-card blue slds-box slds-text-align_center"> 
+                        <lightning-icon icon-name="standard:person_account" size="medium"></lightning-icon> 
+                        <p class="kpi-number">{stats.totalPatients}</p> 
+                        <p class="kpi-label">Total Patients</p> 
+                    </div> 
+                </div> 
+                <div class="slds-col slds-size_1-of-4"> 
+                    <div class="kpi-card green slds-box slds-text-align_center"> 
+                        <lightning-icon icon-name="standard:user" size="medium"></lightning-icon> 
+                        <p class="kpi-number">{stats.totalDoctors}</p> 
+                        <p class="kpi-label">Active Doctors</p> 
+                    </div> 
+                </div> 
+                <div class="slds-col slds-size_1-of-4"> 
+                    <div class="kpi-card orange slds-box slds-text-align_center"> 
+                        <lightning-icon icon-name="standard:currency" size="medium"></lightning-icon> 
+                        <p class="kpi-number">{formattedRevenue}</p> 
+                        <p class="kpi-label">Monthly Revenue</p> 
+                    </div> 
+                </div> 
+                <div class="slds-col slds-size_1-of-4"> 
+                    <div class="kpi-card red slds-box slds-text-align_center"> 
+                        <lightning-icon icon-name="standard:task" size="medium"></lightning-icon> 
+                        <p class="kpi-number">{stats.pendingInvoices}</p> 
+                        <p class="kpi-label">Pending Invoices</p> 
+                    </div> 
+                </div> 
+            </div> 
+            <!-- Today's Stats --> 
+            <div class="slds-grid slds-gutters"> 
+                <div class="slds-col slds-size_1-of-2"> 
+                    <div class="slds-box"> 
+                        <h3 class="slds-text-heading_small slds-m-bottom_small">Today's Appointments</h3> 
+                        <p class="slds-text-heading_medium">{stats.todayAppointments}</p> 
+                    </div> 
+                </div> 
+                <div class="slds-col slds-size_1-of-2"> 
+                    <div class="slds-box"> 
+                        <h3 class="slds-text-heading_small slds-m-bottom_small">Pending Insurance Claims</h3> 
+                        <p class="slds-text-heading_medium">{stats.pendingClaims}</p> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </lightning-card> 
+</template> 

@@ -1,0 +1,194 @@
+<template>
+    <lightning-card title="Patient Dashboard" 
+                    icon-name="standard:patient_list">
+
+        <template if:true={isLoading}>
+            <lightning-spinner 
+                alternative-text="Loading..." 
+                size="medium">
+            </lightning-spinner>
+        </template>
+
+        <template if:true={patient}>
+            <div class="slds-grid slds-gutters slds-p-around_medium">
+
+                <!-- Column 1: Patient Info -->
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-card slds-card_boundary">
+                        <div class="slds-card__header">
+                            <h2 class="slds-card__header-title">
+                                <lightning-icon 
+                                    icon-name="standard:person_account" 
+                                    size="small">
+                                </lightning-icon>
+                                Patient Info
+                            </h2>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <div class="slds-text-align_center 
+                                        slds-p-bottom_medium">
+                                <lightning-icon 
+                                    icon-name="standard:person_account"
+                                    size="large">
+                                </lightning-icon>
+                                <p class="slds-text-heading_small 
+                                          slds-m-top_small">
+                                    {patientName}
+                                </p>
+                                <p class="slds-text-body_small 
+                                          slds-text-color_weak">
+                                    {patient.Name}
+                                </p>
+                            </div>
+                            <dl class="slds-dl_horizontal">
+                                <dt class="slds-dl_horizontal__label">
+                                    Blood Group
+                                </dt>
+                                <dd class="slds-dl_horizontal__detail">
+                                    {patient.Blood_Group__c}
+                                </dd>
+                                <dt class="slds-dl_horizontal__label">
+                                    Phone
+                                </dt>
+                                <dd class="slds-dl_horizontal__detail">
+                                    {patient.Phone__c}
+                                </dd>
+                                <dt class="slds-dl_horizontal__label">
+                                    Gender
+                                </dt>
+                                <dd class="slds-dl_horizontal__detail">
+                                    {patient.Gender__c}
+                                </dd>
+                                <dt class="slds-dl_horizontal__label">
+                                    Status
+                                </dt>
+                                <dd class="slds-dl_horizontal__detail">
+                                    <lightning-badge 
+                                        label={patient.Patient_Status__c}>
+                                    </lightning-badge>
+                                </dd>
+                                <dt class="slds-dl_horizontal__label">
+                                    Doctor
+                                </dt>
+                                <dd class="slds-dl_horizontal__detail">
+                                    {patient.Primary_Doctor__r.Name}
+                                </dd>
+                                <dt class="slds-dl_horizontal__label">
+                                    Allergies
+                                </dt>
+                                <dd class="slds-dl_horizontal__detail">
+                                    {patient.Allergies__c}
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Upcoming Appointments -->
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-card slds-card_boundary">
+                        <div class="slds-card__header">
+                            <h2 class="slds-card__header-title">
+                                <lightning-icon 
+                                    icon-name="standard:event" 
+                                    size="small">
+                                </lightning-icon>
+                                Upcoming Appointments
+                            </h2>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <template if:true={hasAppointments}>
+                                <template 
+                                    for:each={upcomingAppointments} 
+                                    for:item="appt">
+                                    <div key={appt.Id} 
+                                         class="slds-box 
+                                                slds-m-bottom_small">
+                                        <p class="slds-text-body_regular">
+                                            <strong>
+                                                {appt.Doctor__r.Name}
+                                            </strong>
+                                        </p>
+                                        <p class="slds-text-body_small">
+                                            {appt.Appointment_Date__c}
+                                        </p>
+                                        <lightning-badge 
+                                            label={appt.Status__c}>
+                                        </lightning-badge>
+                                        &nbsp;
+                                        <span class="slds-text-body_small">
+                                            Token: {appt.Token_Number__c}
+                                        </span>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={hasAppointments}>
+                                <p class="slds-text-body_small 
+                                          slds-text-color_weak">
+                                    No upcoming appointments.
+                                </p>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Medical History -->
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-card slds-card_boundary">
+                        <div class="slds-card__header">
+                            <h2 class="slds-card__header-title">
+                                <lightning-icon 
+                                    icon-name="standard:file" 
+                                    size="small">
+                                </lightning-icon>
+                                Medical History
+                            </h2>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <template if:true={hasMedicalHistory}>
+                                <template 
+                                    for:each={medicalHistory} 
+                                    for:item="rec">
+                                    <div key={rec.Id} 
+                                         class="slds-border_bottom 
+                                                slds-p-bottom_small 
+                                                slds-m-bottom_small">
+                                        <p class="slds-text-body_small">
+                                            <strong>{rec.Visit_Date__c}</strong>
+                                        </p>
+                                        <p class="slds-text-body_small">
+                                            {rec.Doctor__r.Name}
+                                        </p>
+                                        <p class="slds-text-body_small 
+                                                  slds-text-color_weak">
+                                            {rec.Diagnosis__c}
+                                        </p>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={hasMedicalHistory}>
+                                <p class="slds-text-body_small 
+                                          slds-text-color_weak">
+                                    No medical records found.
+                                </p>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </template>
+
+        <template if:false={patient}>
+            <template if:false={isLoading}>
+                <div class="slds-p-around_medium 
+                            slds-text-align_center">
+                    <p class="slds-text-color_weak">
+                        No patient data found.
+                    </p>
+                </div>
+            </template>
+        </template>
+
+    </lightning-card>
+</template>

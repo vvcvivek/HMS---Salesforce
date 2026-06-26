@@ -1,0 +1,48 @@
+<!-- doctorDashboard.html --> 
+<template>
+    <lightning-card title="Doctor Dashboard" icon-name="standard:user"> 
+        <template if:true={isLoading}> 
+            <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner> 
+        </template> 
+        <div class="slds-p-around_medium"> 
+            <!-- Stats Row --> 
+            <div class="slds-grid slds-gutters slds-wrap"> 
+                <div class="slds-col slds-size_1-of-4"> 
+                    <div class="stat-box slds-box slds-text-align_center"> 
+                        <p class="stat-number slds-text-heading_large">{todayAppointmentCount}</p> 
+                </div> 
+                        <p class="slds-text-body_small">Today's Appointments</p> 
+                    </div> 
+                <div class="slds-col slds-size_1-of-4"> 
+                    <div class="stat-box slds-box slds-text-align_center"> 
+                        <p class="stat-number slds-text-heading_large">{completedCount}</p> 
+                        <p class="slds-text-body_small">Completed Today</p> 
+                    </div> 
+                </div> 
+                <div class="slds-col slds-size_1-of-4"> 
+                    <div class="stat-box slds-box slds-text-align_center"> 
+                        <p class="stat-number slds-text-heading_large">{pendingCount}</p> 
+                        <p class="slds-text-body_small">Pending</p> 
+                    </div> 
+                </div> 
+                <div class="slds-col slds-size_1-of-4"> 
+                    <div class="stat-box slds-box slds-text-align_center"> 
+                        <p class="stat-number slds-text-heading_large">{activePatientCount}</p> 
+                        <p class="slds-text-body_small">Active Patients</p> 
+                    </div> 
+                </div> 
+            </div> 
+            <!-- Today's Appointment List --> 
+            <div class="slds-m-top_medium"> 
+                <h2 class="slds-text-heading_small slds-m-bottom_small">Today's Appointments</h2> 
+                <lightning-datatable 
+                    key-field="Id" 
+                    data={todayAppointments} 
+                    columns={columns} 
+                    hide-checkbox-column="true" 
+                    onrowaction={handleRowAction}> 
+                </lightning-datatable> 
+            </div> 
+        </div> 
+    </lightning-card> 
+</template> 
